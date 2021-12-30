@@ -2,13 +2,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>ch.vorburger.mariaDB4j</groupId>
-        <artifactId>mariaDB4j-pom</artifactId>
+        <groupId>ch.vorburger.mariadb4j</groupId>
+        <artifactId>mariadb4j-pom</artifactId>
         <version>2.5.0-VCNC-1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>mariaDB4j-core</artifactId>
+    <artifactId>mariadb4j-core</artifactId>
 
     <dependencies>
         <dependency>
