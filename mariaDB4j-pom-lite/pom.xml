@@ -235,13 +235,11 @@
     </profiles>
 
     <distributionManagement>
-        <!-- http://central.sonatype.org/pages/apache-maven.html -->
-        <!-- <snapshotRepository> -->
-        <!--     <id>ossrh</id> -->
-        <!--     <url>https://oss.sonatype.org/content/repositories/snapshots</url> -->
-        <!-- </snapshotRepository> -->
-        <!-- <repository> isn't needed with nexus-staging-maven-plugin, it somehow
-             has this hard-coded or automatically find sit somehow, IFF <version> is non-SNAPSHOT -->
+        <repository>
+            <id>gpr-mariadb4j</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/vcnc/mariadb4j</url>
+        </repository>
     </distributionManagement>
 
 </project>

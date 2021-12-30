@@ -1,3 +1,21 @@
+vorburger/MariaDB4j 를 가져와서 mysql\_5\_7 에서 사용할 수 있게 일부 수정하고 
+github packages 에 업로드 할 수 있게 설정을 바꿨다. 
+
+~/.m2/settings.xml 을 적절히 고치고 
+
+```
+mvn deploy 
+```
+
+하면 github packages 도 잘 올라갔다. 
+
+gradle 에서는 mariadb4j-pom-lite 도 읽으려고 시도하니 
+mariadb4j-pom-lite 디렉토리에서도 따로 mvn deploy 해준다. 
+좀 다르게 bazel 에서는 mariadb4j-pom-lite 에 접근할 수 없어도 잘 통과한다. 
+
+----
+
+
 What?
 =====
 
