@@ -64,17 +64,17 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
+            <!-- <plugin> -->
+            <!--     <groupId>org.sonatype.plugins</groupId> -->
+            <!--     <artifactId>nexus-staging-maven-plugin</artifactId> -->
+            <!--     <version>1.6.7</version> -->
+            <!--     <extensions>true</extensions> -->
+            <!--     <configuration> -->
+            <!--         <serverId>ossrh</serverId> -->
+            <!--         <nexusUrl>https://oss.sonatype.org/</nexusUrl> -->
+            <!--         <autoReleaseAfterClose>true</autoReleaseAfterClose> -->
+            <!--     </configuration> -->
+            <!-- </plugin> -->
 
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
@@ -236,10 +236,10 @@
 
     <distributionManagement>
         <!-- http://central.sonatype.org/pages/apache-maven.html -->
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
+        <!-- <snapshotRepository> -->
+        <!--     <id>ossrh</id> -->
+        <!--     <url>https://oss.sonatype.org/content/repositories/snapshots</url> -->
+        <!-- </snapshotRepository> -->
         <!-- <repository> isn't needed with nexus-staging-maven-plugin, it somehow
              has this hard-coded or automatically find sit somehow, IFF <version> is non-SNAPSHOT -->
     </distributionManagement>
