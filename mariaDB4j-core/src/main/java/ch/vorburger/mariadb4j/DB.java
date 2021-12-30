@@ -101,22 +101,21 @@ public class DB {
 
     protected ManagedProcess createDBInstallProcess() throws ManagedProcessException, IOException {
         logger.info("Installing a new embedded database to: " + baseDir);
-        File installDbCmdFile = newExecutableFile("bin", "mysql_install_db");
-        if (!installDbCmdFile.exists())
-            installDbCmdFile = newExecutableFile("scripts", "mysql_install_db");
-        if (!installDbCmdFile.exists())
-            throw new ManagedProcessException(
-                    "mysql_install_db was not found, neither in bin/ nor in scripts/ under " + baseDir.getAbsolutePath());
+        File installDbCmdFile = newExecutableFile("bin", "mysqld");
         ManagedProcessBuilder builder = new ManagedProcessBuilder(installDbCmdFile);
         builder.setOutputStreamLogDispatcher(getOutputStreamLogDispatcher("mysql_install_db"));
+
+
+        logger.info("Set environment: " + configuration.getOSLibraryEnvironmentVarName() + " to " + libDir.getAbsolutePath());
         builder.getEnvironment().put(configuration.getOSLibraryEnvironmentVarName(), libDir.getAbsolutePath());
         builder.setWorkingDirectory(baseDir);
+        builder.addArgument("--initialize");
         if (!configuration.isWindows()) {
+            //builder.addArgument("--no-defaults");
             builder.addFileArgument("--datadir", dataDir);
             builder.addFileArgument("--basedir", baseDir);
-            builder.addArgument("--no-defaults");
-            builder.addArgument("--force");
-            builder.addArgument("--skip-name-resolve");
+            // builder.addArgument("--force");
+            // builder.addArgument("--skip-name-resolve");
             // builder.addArgument("--verbose");
         } else {
             builder.addFileArgument("--datadir", toWindowsPath(dataDir));
@@ -180,6 +179,7 @@ public class DB {
     synchronized ManagedProcess startPreparation() throws ManagedProcessException, IOException {
         ManagedProcessBuilder builder = new ManagedProcessBuilder(newExecutableFile("bin", "mysqld"));
         builder.setOutputStreamLogDispatcher(getOutputStreamLogDispatcher("mysqld"));
+        logger.info("Set environment: " + configuration.getOSLibraryEnvironmentVarName() + " to " + libDir.getAbsolutePath());
         builder.getEnvironment().put(configuration.getOSLibraryEnvironmentVarName(), libDir.getAbsolutePath());
         builder.addArgument("--no-defaults"); // *** THIS MUST COME FIRST ***
         builder.addArgument("--console");
@@ -195,6 +195,10 @@ public class DB {
         } else {
             builder.addFileArgument("--datadir", toWindowsPath(dataDir));
         }
+        builder.addArgument("--explicit_defaults_for_timestamp=1");
+        builder.addArgument("--sql-mode=" + 
+           "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO," + 
+           "NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION");
         addPortAndMaybeSocketArguments(builder);
         for (String arg : configuration.getArgs()) {
             builder.addArgument(arg);
@@ -413,8 +417,6 @@ public class DB {
             Util.extractFromClasspathToFile(configuration.getBinariesClassPathLocation(), baseDir);
             if (!configuration.isWindows()) {
                 Util.forceExecutable(newExecutableFile("bin", "my_print_defaults"));
-                Util.forceExecutable(newExecutableFile("bin", "mysql_install_db"));
-                Util.forceExecutable(newExecutableFile("scripts", "mysql_install_db"));
                 Util.forceExecutable(newExecutableFile("bin", "mysqld"));
                 Util.forceExecutable(newExecutableFile("bin", "mysqldump"));
                 Util.forceExecutable(newExecutableFile("bin", "mysql"));
